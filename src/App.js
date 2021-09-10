@@ -9,6 +9,17 @@ const App = () => {
   const [filter, setFilter] = useState('');
   const [contacts, setContacts] = useState([]);
 
+    useEffect(() => {
+    const contacts = JSON.parse(localStorage.getItem('contacts'));
+    if (contacts) {
+      setContacts(contacts);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
+
   const changeFilter = (evt) => {
     setFilter(evt.currentTarget.value);
   };
@@ -36,17 +47,6 @@ const App = () => {
     const lowerCasedFilter = filter.toLocaleLowerCase();
     return contacts.filter(contact => contact.name.toLocaleLowerCase().includes(lowerCasedFilter))
   };
-
-  useEffect(() => {
-    const contacts = JSON.parse(localStorage.getItem('contacts'));
-    if (contacts) {
-      setContacts(contacts);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
 
   return (
     <div>
